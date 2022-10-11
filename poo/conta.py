@@ -1,8 +1,8 @@
 from datetime import datetime
-import re
+import abc
 from historico import Historico;
 
-class Conta:
+class Conta(abc.ABC):
 
     identificador = 1
 
@@ -57,6 +57,10 @@ class Conta:
             print("saldo nao pode ser negativo")
         else:
             self._saldo = saldo
+
+    @abc.abstractclassmethod
+    def atualiza():
+        pass
     
     def deposita(self, valor):
         self.saldo += valor
@@ -83,5 +87,21 @@ class Conta:
         print("EXTRATO: ")
         print("numero: {} \nsaldo: {} \ntitular: {} \ncpf: {}".format(self.numero, self.saldo, self.titular.nome, self.titular.cpf))
         self.historico.transacoes.append("tirou o extrato em {}".format(datetime.today()))
+
+    def __str__(self):
+        return "Dados da conta: \nNumero: {} \nTitular: {} \nSaldo: {} \nLimite: {}".format(self._numero, self._titular, self._saldo, self._limite)
+
+class ContaInvestimento(Conta):
+    
+    def atualiza(self, taxa):
+        self._saldo += self._saldo * taxa * 5
+
+
+if __name__ == '__main__':
+    ci = ContaInvestimento('745-8', 'Wendel', 1500.45, 1000.0)
+    ci.deposita(100)
+    ci.atualiza(0.01)
+    print(ci.saldo)
+
 
     
