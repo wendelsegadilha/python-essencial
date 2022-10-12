@@ -5,7 +5,7 @@ class Calculadora():
     def dividir(self, valor1, valor2):
         try:
             return valor1 / valor2
-        except(MinhaException):
+        except:
             raise MinhaException("Divisao por zero, invalida")
 
 if __name__ == '__main__':
